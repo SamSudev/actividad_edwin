@@ -1,0 +1,21 @@
+{% extends 'tareas/base.html' %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<div class="text-center">
+  <h1 class="mb-4">Bienvenido a Django CRUD</h1>
+  <p class="lead">Una aplicación sencilla para gestionar tus tareas.</p>
+
+  {% if user.is_authenticated %}
+    <a href="{% url 'tareas' %}" class="btn btn-primary btn-lg mt-3">
+      Ir a mis tareas
+    </a>
+  {% else %}
+    <div class="mt-4">
+      <a href="{% url 'signin' %}" class="btn btn-success btn-lg me-2">Iniciar sesión</a>
+      <a href="{% url 'signup' %}" class="btn btn-outline-primary btn-lg">Registrarse</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

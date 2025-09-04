@@ -1,0 +1,24 @@
+{% extends 'tareas/base.html' %}
+{% block title %}Eliminar tarea{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm border-danger">
+      <div class="card-body text-center">
+        <h3 class="text-danger">¿Seguro que quieres eliminar esta tarea?</h3>
+        <p class="mt-3">
+          <strong>{{ tarea.titulo }}</strong><br>
+          <span class="text-muted">{{ tarea.descripcion|default:"Sin descripción" }}</span>
+        </p>
+
+        <form method="post" class="mt-4">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger me-2">Sí, eliminar</button>
+          <a href="{% url 'tareas' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

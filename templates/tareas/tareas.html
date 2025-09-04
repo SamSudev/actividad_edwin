@@ -1,0 +1,52 @@
+{% extends 'tareas/base.html' %}
+{% block title %}Tareas Pendientes{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1 class="text-center my-4">Tareas Pendientes</h1>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+
+      {% if tareas %}
+        {% for t in tareas %}
+          <div class="card mb-3 shadow-sm {% if t.importante %}border-danger{% endif %}">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                
+                <h5 class="card-title {% if t.importante %}text-danger fw-bold{% else %}fw-bold text-success{% endif %}">
+                  {{ t.titulo }}
+                  {% if t.importante %}
+                    <span class="badge bg-danger">Importante</span>
+                  {% endif %}
+                </h5>
+
+                <small class="text-muted">{{ t.owner.username }}</small>
+              </div>
+
+              <p class="card-text">{{ t.descripcion|default:"Sin descripción" }}</p>
+              
+              <div class="d-flex justify-content-end gap-2">
+                <a href="{% url 'detalles_tarea' t.pk %}" class="btn btn-sm btn-outline-info">Detalles</a>
+                <a href="{% url 'actualizar_tarea' t.pk %}" class="btn btn-sm btn-outline-primary">Editar</a>
+                <form method="post" action="{% url 'toggle_completada' t.pk %}" style="display:inline">
+                  {% csrf_token %}
+                  <button class="btn btn-sm btn-outline-success">
+                    Completar
+                  </button>
+                </form>
+                <a href="{% url 'eliminar_tarea' t.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="alert alert-info text-center">
+          No tienes tareas pendientes.
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+{% endblock %}

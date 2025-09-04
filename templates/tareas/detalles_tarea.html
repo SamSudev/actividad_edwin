@@ -1,0 +1,60 @@
+{% extends 'tareas/base.html' %}
+{% block title %}Detalles de tarea{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+          <h3 class="card-title {% if tarea.importante %}text-danger fw-bold{% else %}fw-bold{% endif %}">
+            {{ tarea.titulo }}
+          </h3>
+          <small class="text-muted">Autor: {{ tarea.owner.username }}</small>
+        </div>
+        
+        <p class="card-text">{{ tarea.descripcion|default:"Sin descripción" }}</p>
+
+        <ul class="list-group list-group-flush mb-3">
+          <li class="list-group-item">
+            <strong>Estado:</strong>
+            {% if tarea.completada %}
+              <span class="badge bg-success">Completada</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">Pendiente</span>
+            {% endif %}
+          </li>
+          <li class="list-group-item">
+            <strong>Prioridad:</strong>
+            {% if tarea.importante %}
+              <span class="badge bg-danger">Importante</span>
+            {% else %}
+              <span class="badge bg-secondary">Normal</span>
+            {% endif %}
+          </li>
+          <li class="list-group-item">
+            <strong>Creada:</strong> {{ tarea.creada|date:"d/m/Y H:i" }}
+          </li>
+          {% if tarea.vencimiento %}
+          <li class="list-group-item">
+            <strong>Vence:</strong> {{ tarea.vencimiento|date:"d/m/Y" }}
+          </li>
+          {% endif %}
+        </ul>
+
+        <div class="d-flex justify-content-end gap-2">
+          <a href="{% url 'tareas' %}" class="btn btn-secondary">Volver</a>
+          <a href="{% url 'actualizar_tarea' tarea.pk %}" class="btn btn-primary">Editar</a>
+          <form method="post" action="{% url 'toggle_completada' tarea.pk %}" style="display:inline">
+            {% csrf_token %}
+            <button class="btn btn-outline-success">
+              {% if tarea.completada %}Desmarcar{% else %}Completar{% endif %}
+            </button>
+          </form>
+          <a href="{% url 'eliminar_tarea' tarea.pk %}" class="btn btn-danger">Eliminar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
