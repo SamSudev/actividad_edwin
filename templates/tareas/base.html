@@ -17,20 +17,24 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'tareas_completadas' %}">Tareas completadas</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'tareas' %}">Tareas pendientes</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'crear_tarea' %}">Crear Tarea</a></li>
-        {% if user.is_authenticated %}
-          <li class="nav-item"><a class="nav-link text-danger" href="{% url 'signout' %}">Cerrar Sesión</a></li>
-        {% else %}
-          <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}">Iniciar Sesión</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">Registrarse</a></li>
-        {% endif %}
-      </ul>
-    </div>
+   <div class="collapse navbar-collapse" id="navbarNav">
+  <ul class="navbar-nav ms-auto">
+    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+
+    {% if user.is_authenticated %}
+      <!-- Estas opciones solo aparecen si el usuario inició sesión -->
+      <li class="nav-item"><a class="nav-link" href="{% url 'tareas_completadas' %}">Tareas completadas</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'tareas' %}">Tareas pendientes</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'crear_tarea' %}">Crear Tarea</a></li>
+      <li class="nav-item"><a class="nav-link text-danger" href="{% url 'signout' %}">Cerrar Sesión</a></li>
+    {% else %}
+      <!-- Estas opciones aparecen solo si el usuario NO ha iniciado sesión -->
+      <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}">Iniciar Sesión</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">Registrarse</a></li>
+    {% endif %}
+  </ul>
+</div>
+
   </div>
 </nav>
 
