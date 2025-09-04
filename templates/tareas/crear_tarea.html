@@ -1,9 +1,43 @@
 {% extends 'tareas/base.html' %}
+{% block title %}Crear Tarea{% endblock %}
+
 {% block content %}
-  <h2>{% if form.instance.pk %}Editar{% else %}Crear{% endif %} tarea</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-primary" type="submit">Guardar</button>
-  </form>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+  <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 500px; width: 100%;">
+    <h3 class="text-center mb-4">📝 Crear Tarea</h3>
+
+    <form method="post">
+      {% csrf_token %}
+      
+      <!-- Título -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Título:</label>
+        <input type="text" name="titulo" class="form-control" placeholder="Escribe un título" required>
+      </div>
+
+      <!-- Descripción -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Descripción:</label>
+        <textarea name="descripcion" class="form-control" rows="3" placeholder="Agrega detalles (opcional)"></textarea>
+      </div>
+
+      <!-- Vencimiento -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Fecha de vencimiento:</label>
+        <input type="date" name="vencimiento" class="form-control">
+      </div>
+
+      <!-- Importante -->
+      <div class="form-check mb-4">
+        <input type="checkbox" name="importante" class="form-check-input" id="importante">
+        <label class="form-check-label" for="importante">Marcar como importante</label>
+      </div>
+
+      <!-- Botón -->
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">💾 Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

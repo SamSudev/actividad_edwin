@@ -1,60 +1,73 @@
 {% extends 'tareas/base.html' %}
-{% block title %}Detalles de tarea{% endblock %}
+{% block title %}Editar Tarea{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-8">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-start">
-          <h3 class="card-title {% if tarea.importante %}text-danger fw-bold{% else %}fw-bold{% endif %}">
-            {{ tarea.titulo }}
-          </h3>
-          <small class="text-muted">Autor: {{ tarea.owner.username }}</small>
-        </div>
-        
-        <p class="card-text">{{ tarea.descripcion|default:"Sin descripción" }}</p>
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow-sm p-4" style="max-width: 500px; width: 100%;">
+    <h3 class="text-center mb-4">Editar Tarea</h3>
 
-        <ul class="list-group list-group-flush mb-3">
-          <li class="list-group-item">
-            <strong>Estado:</strong>
-            {% if tarea.completada %}
-              <span class="badge bg-success">Completada</span>
-            {% else %}
-              <span class="badge bg-warning text-dark">Pendiente</span>
-            {% endif %}
-          </li>
-          <li class="list-group-item">
-            <strong>Prioridad:</strong>
-            {% if tarea.importante %}
-              <span class="badge bg-danger">Importante</span>
-            {% else %}
-              <span class="badge bg-secondary">Normal</span>
-            {% endif %}
-          </li>
-          <li class="list-group-item">
-            <strong>Creada:</strong> {{ tarea.creada|date:"d/m/Y H:i" }}
-          </li>
-          {% if tarea.vencimiento %}
-          <li class="list-group-item">
-            <strong>Vence:</strong> {{ tarea.vencimiento|date:"d/m/Y" }}
-          </li>
-          {% endif %}
-        </ul>
+    <form method="post">
+      {% csrf_token %}
 
-        <div class="d-flex justify-content-end gap-2">
-          <a href="{% url 'tareas' %}" class="btn btn-secondary">Volver</a>
-          <a href="{% url 'actualizar_tarea' tarea.pk %}" class="btn btn-primary">Editar</a>
-          <form method="post" action="{% url 'toggle_completada' tarea.pk %}" style="display:inline">
-            {% csrf_token %}
-            <button class="btn btn-outline-success">
-              {% if tarea.completada %}Desmarcar{% else %}Completar{% endif %}
-            </button>
-          </form>
-          <a href="{% url 'eliminar_tarea' tarea.pk %}" class="btn btn-danger">Eliminar</a>
-        </div>
+      <!-- Título -->
+      <div class="mb-3">
+        <label class="form-label">Título:</label>
+        <input 
+          type="text" 
+          name="titulo" 
+          class="form-control" 
+          value="{{ form.titulo.value|default:'' }}" 
+          placeholder="Escribe un título" 
+          required>
       </div>
-    </div>
+
+      <!-- Descripción -->
+      <div class="mb-3">
+        <label class="form-label">Descripción:</label>
+        <textarea 
+          name="descripcion" 
+          class="form-control" 
+          rows="3" 
+          placeholder="Agrega detalles (opcional)">{{ form.descripcion.value|default:'' }}</textarea>
+      </div>
+
+      <!-- Vencimiento -->
+      <div class="mb-3">
+        <label class="form-label">Fecha de vencimiento:</label>
+        <input 
+          type="date" 
+          name="vencimiento" 
+          class="form-control" 
+          value="{{ form.vencimiento.value|date:'Y-m-d' }}">
+      </div>
+
+      <!-- Importante -->
+      <div class="form-check mb-3">
+        <input 
+          type="checkbox" 
+          name="importante" 
+          class="form-check-input" 
+          id="importante" 
+          {% if form.importante.value %}checked{% endif %}>
+        <label class="form-check-label" for="importante">Marcar como importante</label>
+      </div>
+
+      <!-- Completada -->
+      <div class="form-check mb-3">
+        <input 
+          type="checkbox" 
+          name="completada" 
+          class="form-check-input" 
+          id="completada" 
+          {% if form.completada.value %}checked{% endif %}>
+        <label class="form-check-label" for="completada">Marcar como completada</label>
+      </div>
+
+      <!-- Botón -->
+      <div class="d-grid">
+        <button type="submit" class="btn btn-success">Actualizar</button>
+      </div>
+    </form>
   </div>
 </div>
 {% endblock %}
