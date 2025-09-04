@@ -74,7 +74,8 @@ def actualizar_tarea(request, pk):
             return redirect('tareas')
     else:
         form = TareaForm(instance=tarea)
-    return render(request, 'tareas/crear_tarea.html', {'form': form})
+    
+    return render(request, 'tareas/editar_tarea.html', {'form': form, 'tarea': tarea})
 
 @login_required
 def eliminar_tarea(request, pk):

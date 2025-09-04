@@ -1,0 +1,38 @@
+{% extends 'tareas/base.html' %}
+{% block title %}Editar Tarea{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow-sm p-4" style="max-width: 500px; width: 100%;">
+    <h3 class="text-center mb-4">✏️ Editar Tarea</h3>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <!-- Título -->
+      <div class="mb-3">
+        <label class="form-label">Título:</label>
+        <input type="text" name="titulo" class="form-control" value="{{ form.titulo.value }}" required>
+      </div>
+
+      <!-- Descripción -->
+      <div class="mb-3">
+        <label class="form-label">Descripción:</label>
+        <textarea name="descripcion" class="form-control" rows="3">{{ form.descripcion.value }}</textarea>
+      </div>
+
+      <!-- Importante -->
+      <div class="form-check mb-3">
+        <input type="checkbox" name="importante" class="form-check-input" id="importante"
+               {% if form.importante.value %}checked{% endif %}>
+        <label class="form-check-label" for="importante">Marcar como importante</label>
+      </div>
+
+      <!-- Botón -->
+      <div class="d-grid">
+        <button type="submit" class="btn btn-success">💾 Actualizar</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
